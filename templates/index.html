@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>NexusAI</title>
+</head>
+
+<body>
+
+    <h1>SAI(made by Swarup)</h1>
+
+    <div id="chat">
+        <p><b>NexusAI:</b> Hello! I am NexusAI.</p>
+    </div>
+
+    <input type="text" id="message" placeholder="Type a message">
+
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+
+        async function sendMessage() {
+
+            let message =
+                document.getElementById("message").value;
+
+            let chatBox =
+                document.getElementById("chat");
+
+            chatBox.innerHTML +=
+                `<p><b>You:</b> ${message}</p>`;
+
+            let response = await fetch("/chat", {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    message: message
+                })
+            });
+
+            let data = await response.json();
+
+            chatBox.innerHTML +=
+                `<p><b>NexusAI:</b> ${data.reply}</p>`;
+
+            document.getElementById("message").value = "";
+        }
+
+    </script>
+
+</body>
+
+</html>
